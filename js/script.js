@@ -4,43 +4,50 @@ var quotes = [
     source: "Abraham Lincoln",
     citation: "The Gettysburg Address",
     year: 1984,
-    tags: "humor"
+    tags: [" humor"]
   },
   {
     quote: "In modern war...you will die like a dog for no good reason.",
     source: "Ernest Hemingway",
     citation: "Notes on the Next War",
     year: 1935,
-    tags: "war, death, dogs"
+    tags: [" war", " death", " dogs"]
   },
   {
     quote: "And then everyone died. The End.",
     source: "George R.R. Martin",
     citation: "A Dream of Spring",
     year: 2096,
-    tags: "humor, literature, ASOIAF"
+    tags: [" humor", " literature", " ASOIAF"]
   },
   {
     quote: "If you want to know what a man's like, take a good look at how he treats his inferiors, not his equals.",
     source: "J.K. Rowling",
     citation: "Harry Potter and the Goblet of Fire",
     year: 2000,
-    tags: "harry potter, decency"
+    tags: [" harry potter", " decency"]
   },
   {
     quote: "Never put off till tomorrow what may be done day after tomorrow just as well.",
     source: "Mark Twain",
-    tags: "humor, procrastination"
+    tags: [" humor", " procrastination"]
   },
   {
     quote: "Very sorry can't come. Lie follows by post.",
     source: "Lord Charles Beresford",
-    tags: "humor"
+    tags: [" humor"]
+  },
+  {
+    quote: "What a lucky man I am for marrying a girl like Emily.",
+    source: "Adam Kelm",
+    year: 2017,
+    tags: [" love", " puppies"]
   }
 ];
 
+var usedQuotes = [];
 var randomQuote;
-setInterval(function() {printQuote();}, 20000);
+
 
 // Generates a random hex value for background color
 function generateRandomHex() {
@@ -57,8 +64,21 @@ function generateRandomHex() {
 
 // Pulls a random quote object from the quotes array
 function getRandomQuote() {
-  randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-  return randomQuote;
+  if (quotes.length > 0) {
+    randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    quoteIndex = quotes.indexOf(randomQuote);
+    // Remove used quote from quotes array
+    quotes.splice(quoteIndex,1);
+    // Push used quote to usedQuotes array
+    usedQuotes.push(randomQuote);
+  } else {
+    // If quotes array is empty, refill it with data from usedQuotes.
+    quotes = usedQuotes.slice();
+    // Then clear all data from usedQuotes.
+    usedQuotes = [];
+    // Finally, restart the function to begin the process over again.
+    getRandomQuote();
+  }
 }
 
 // Given a random quote object, create an HTML string with values pulled from the random quote object.
@@ -88,6 +108,7 @@ function printQuote() {
 // event listener to respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+setInterval(function() {printQuote();}, 20000);
 
 printQuote();
 
