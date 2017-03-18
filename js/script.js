@@ -84,6 +84,10 @@ function getRandomQuote() {
 // Given a random quote object, create an HTML string with values pulled from the random quote object.
 function printQuote() {
   getRandomQuote();
+  // When the "show another quote" button is clicked, the interval timer is cleared...
+  window.clearInterval(intervalID);
+  // Then the interval timer is immediately reset.
+  intervalID = window.setInterval(printQuote, 20000);
   var setQuotePrintout = '<p class="quote">' + randomQuote.quote + '</p>';
   setQuotePrintout += '<p class="source">' + randomQuote.source;
   // If citation, year, or tags values are present, add those to the string. Otheriwse, ignore properties.
@@ -100,7 +104,7 @@ function printQuote() {
   // Replace contents of quote-box div with the new HTML string.
   document.getElementById('quote-box').innerHTML = setQuotePrintout;
   // Log the current quote to the console
-  console.log(setQuotePrintout);
+  console.log(randomQuote.quote);
   // Each time a new quote is printed, the background color changes to a randomly selected value.
   document.body.style.backgroundColor = generateRandomHex();
 }
@@ -108,7 +112,9 @@ function printQuote() {
 // event listener to respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-setInterval(function() {printQuote();}, 20000);
+
+var intervalID = window.setInterval(printQuote, 20000);
+//setInterval(function() {printQuote();}, 20000);
 
 printQuote();
 
