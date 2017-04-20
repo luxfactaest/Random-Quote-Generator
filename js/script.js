@@ -44,7 +44,6 @@ var quotes = [
     tags: [" love", " puppies"]
   }
 ];
-
 var usedQuotes = [];
 var randomQuote;
 
